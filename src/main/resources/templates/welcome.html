@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f8f8;
+        }
+
+        .header .menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header .menu button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header .menu button:hover {
+            background-color: #0056b3;
+        }
+
+        .header .search-box {
+            display: flex;
+            gap: 5px;
+        }
+
+        .header .search-box input {
+            padding: 10px;
+            width: 200px;
+        }
+
+        .header .search-box button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header .search-box button:hover {
+            background-color: #218838;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: space-around;
+        }
+
+        .product {
+            width: 250px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+        }
+
+        .product-img img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product-name, .product-price {
+            margin: 10px 0;
+        }
+
+        .product form button {
+            padding: 10px 20px;
+            background-color: #ffc107;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .product form button:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="menu">
+        <button onclick="window.location.href='/products/all'"><a href="/">All Products</a></button>
+        <button onclick="window.location.href='/products/page/1'">First 6 Products</button>
+        <button onclick="window.location.href='/products/page/2'">Next 6 Products</button>
+    </div>
+    <div class="search-box">
+        <input type="text" placeholder="Enter keywords..." id="searchInput">
+        <button onclick="searchProducts()">Search</button>
+    </div>
+</div>
+
+<h1>Welcome to SHOP SDS</h1>
+<img src="https://images.samsung.com/is/image/samsung/assets/vn/2407/galaxyai/galaxyai_f01_ft03_kv_pc_v2.0.jpg?$1440_N_JPG$" alt="Banner Image"/>
+
+<div class="product-list">
+    <div class="product" th:each="product: ${products}" th:object="${product}">
+        <div class="product-img"><img th:src="*{picture}" alt="Product Image"/></div>
+        <div class="product-name"><b><span th:text="*{name}">OK</span></b></div>
+        <div class="product-price"><b><span th:text="*{price}">Đ</span></b></div>
+        <form th:action="@{/shopping/addtocart}" method="post">
+            <input type="hidden" th:value="${product.id}" name="productId" id="productId">
+            <button type="submit">Buy</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function searchProducts() {
+        const query = document.getElementById('searchInput').value;
+        window.location.href = '/products/search?query=' + query;
+    }
+</script>
+</body>
+</html>
